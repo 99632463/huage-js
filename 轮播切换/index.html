@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+			list-style: none;
+		}
+		#box{
+			width: 500px;
+			height: 400px;
+			margin: 100px auto;
+		}
+		li{
+			width: 80px;
+			height: 45px;
+			float: left;
+			text-align: center;
+			line-height: 45px;
+		}
+		li.active{
+			background: #0f0;
+		}
+		#content{
+			clear: both;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul id="ul">
+			<li class="active">tab1</li>
+			<li>tab2</li>
+			<li>tab3</li>
+		</ul>
+		<div id="content">
+			<div>111</div>
+			<div style="display:none;">222</div>
+			<div style="display:none;">333</div>
+		</div>
+	</div>
+
+	<script>
+		var allLis = document.all('ul').getElementsByTagName('li');
+		var allDivs = document.all('content').getElementsByTagName('div');
+
+		var num = 0;
+
+		setInterval(function(){
+			num += 1;
+			num %= allLis.length;
+
+			for(var i = 0,len = allLis.length; i < len; i++){
+				allLis[i].className = '';
+				allDivs[i].style.display = 'none';
+			}
+
+			allLis[num].className = 'active';
+			allDivs[num].style.display = 'block';
+		},1000)
+	</script>
+</body>
+</html>

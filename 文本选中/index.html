@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		p{
+			width: 300px;
+			height: 300px;
+		}
+		div{
+			width: 30px;
+			height: 30px;
+			background: #f00;
+			position: absolute;
+			display: none;
+		}
+	</style>
+	<script>
+		window.onload = function(){
+			var oTxt = document.all('txt');
+			var box = document.all('box');
+			let selectedTxt = '';
+
+			oTxt.onmouseup = function(e){
+				var e = e || window.event;
+
+				if(window.getSelection){
+					selectedTxt = window.getSelection().toString();
+				}
+				else{
+					selectedTxt = document.selection.createRange().text;
+				}
+
+				if(selectedTxt.length){
+					box.style.display = 'block';
+					box.style.left = e.pageX + 'px';
+					box.style.top = e.pageY + 'px';
+				}
+			}
+
+			document.onmousedown = function(e){
+				const target = e.target || e.srcElement;
+
+				if(target.id === 'box'){
+					alert('hello');
+				}
+				else{
+					box.style.display = 'none';
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	<p id="txt">
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfsdfdsfdssdfdfs
+		dfdsfdssdfsdfsd	dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+		dfdsfdssdfdfs
+	</p>
+	<div id="box"></div>
+</body>
+</html>

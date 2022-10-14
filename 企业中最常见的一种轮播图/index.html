@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+			list-style: none;
+			text-decoration: none;
+		}
+		#myCarousel{
+			width: 800px;
+			height: 350px;
+			margin: 100px auto;
+			position: relative;
+			overflow: hidden;
+		}
+		#carousel img{
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 800px;
+			height: 350px;
+			vertical-align: top;
+		}
+		#left_control{
+			width: 60px;
+			height: 80px;
+			position: absolute;
+			left: 0;
+			top: 130px;
+			background: #fff;
+			text-align: center;
+			line-height: 80px;
+			font-size: 40px;
+			font-weight: bold;
+			color: black;
+		}
+		#right_control{
+			width: 60px;
+			height: 80px;
+			position: absolute;
+			right: 0;
+			top: 130px;
+			background: #fff;
+			text-align: center;
+			line-height: 80px;
+			font-size: 40px;
+			font-weight: bold;
+			color: black;
+		}
+		ol{
+			position: absolute;
+			bottom: 20px;
+			left: 50%;
+			transform: translate(-50%);
+			display: flex;
+		}
+		ol li{
+			width: 18px;
+			height: 18px;
+			background: #fff;
+			border-radius: 50%;
+			text-align: center;
+			line-height: 18px;
+			color: white;
+			margin-right: 6px;
+			cursor: pointer;
+			font-size: 12px;
+		}
+		ol li.current{
+			background: rgba(0,0,0,.8);
+		}
+	</style>
+</head>
+<body>
+	<div id="myCarousel">
+		<div id="carousel">
+			<ul>
+				<li><img src="img/1.jpg" alt=""></li>
+				<li><img src="img/2.jpg" alt=""></li>
+				<li><img src="img/3.jpg" alt=""></li>
+				<li><img src="img/4.jpg" alt=""></li>
+				<li><img src="img/5.jpg" alt=""></li>
+			</ul>
+		</div>
+		<div id="control">
+			<a href="javascript:" id="left_control"> < </a>
+			<a href="javascript:" id="right_control"> > </a>
+			<ol id="indicators" />
+		</div>
+	</div>
+
+	<script src="../工具方法/myTools.js"></script>
+	<script>
+		class Carousel{
+			constructor(options = {}){
+				this.myCarousel = Tools.getIdElement('myCarousel');
+				this.imgs = Tools.getIdElement('carousel').querySelectorAll('img');
+				this.indicators = Tools.getIdElement('indicators');
+				this.circles = this.indicators.getElementsByTagName('li');
+				this.left_control = Tools.getIdElement('left_control');
+				this.right_control = Tools.getIdElement('right_control');
+				this.timer = null;
+				this.iNow = 0;
+				this.myCarouselWidth = this.myCarousel.offsetWidth;
+
+				const {
+					interval,autoPlayDirection,autoPlay,showDigital,showIndicators,
+					showControl
+				} = options;
+
+				this.interval = interval;
+				this.autoPlayDirection = autoPlayDirection;
+				this.autoPlay = autoPlay;
+				this.showDigital = showDigital;
+				this.showIndicators = showIndicators;
+				this.showControl = showControl;
+			}
+
+			render(){
+				this.showIndicators && this.createindicatorss();
+				this.positionImages();
+				this.handleindicatorss();
+
+				this.left_control.style.display = this.showControl ? 'block' : 'none';
+				this.right_control.style.display = this.showControl ? 'block' : 'none';
+
+				this.left_control.onclick = () => {
+					this.autoPlayToLeft();
+				}
+
+				this.right_control.onclick = () => {
+					this.autoPlayToRight();
+				}
+
+				if(this.autoPlay){
+					this.autoPlayByDirection();
+					this.myCarousel.onmouseover = () => {
+						clearInterval(this.timer);
+					}
+					this.myCarousel.onmouseout = () => {
+						this.autoPlayByDirection();
+					}
+				}
+			}
+
+			createindicatorss(){
+				for(var i = 0,len = this.imgs.length; i < len; i++){
+					var li = document.createElement('li');
+					if(this.showDigital){
+						li.innerHTML = this.imgs.length - i;
+					}
+					this.indicators.insertBefore(li,this.indicators.children[0]);
+				}
+				this.circles[0].className = 'current';
+			}
+
+			positionImages(){
+				for(var j = 1,len = this.imgs.length; j < len; j++){
+					this.imgs[j].style.left = this.myCarouselWidth + 'px';
+				}
+			}
+
+			handleindicatorss(){
+				var self = this;
+
+				for(var k = 0,len = this.circles.length; k < len; k++){
+					(function(index){
+						self.circles[index].onclick = function(){
+							if(self.iNow < index){
+								Tools.bufferAnimation(self.imgs[self.iNow],{left:-self.myCarouselWidth});
+								self.imgs[index].style.left = self.myCarouselWidth + 'px';
+							} 
+							else if(self.iNow > index){
+								Tools.bufferAnimation(self.imgs[self.iNow],{left:self.myCarouselWidth});
+								self.imgs[index].style.left = -self.myCarouselWidth + 'px';
+							}
+
+							self.iNow = index;
+							Tools.bufferAnimation(self.imgs[self.iNow],{left:0});
+							self.changeIndex();
+						}
+					})(k);
+				}
+			}
+
+			changeIndex(){
+				for(var i = 0,len = this.circles.length; i < len; i++){
+					this.circles[i].className = '';
+				}
+				this.circles[this.iNow].className = 'current';
+			}
+
+			autoPlayByDirection(){
+				this.timer = setInterval(this.autoPlayDirection === 'left' ?
+				 this.autoPlayToLeft : this.autoPlayToRight,this.interval || 1000)
+			} 
+
+			autoPlayToLeft = () => {
+				Tools.bufferAnimation(this.imgs[this.iNow],{left:this.myCarouselWidth});
+				this.iNow--;
+				if(this.iNow < 0){
+					this.iNow = this.imgs.length - 1;
+				}
+				this.imgs[this.iNow].style.left = -this.myCarouselWidth + 'px';
+				Tools.bufferAnimation(this.imgs[this.iNow],{left:0});
+				this.changeIndex();
+			}
+
+			autoPlayToRight = () => {
+				Tools.bufferAnimation(this.imgs[this.iNow],{left:-this.myCarouselWidth});
+				this.iNow++;
+				this.iNow %= this.imgs.length;
+				this.imgs[this.iNow].style.left = this.myCarouselWidth + 'px';
+				Tools.bufferAnimation(this.imgs[this.iNow],{left:0});
+				this.changeIndex();
+			}
+		}
+
+		var carousel = new Carousel({
+			autoPlay:true,
+			interval:1500,
+			autoPlayDirection:'right',
+			showDigital:true,
+			showIndicators:true,
+			showControl:true
+		});
+		carousel.render();
+	</script>
+</body>
+</html>

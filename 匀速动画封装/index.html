@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#box{
+			width: 200px;
+			height: 200px;
+			background: #f00;
+			position: absolute;
+			left: 50px;
+		}
+	</style>
+</head>
+<body>
+	<button id="btn">move</button>
+	<div id="box"></div>
+
+	<script>
+		var btn = document.all('btn');
+		var box = document.all('box');
+
+		btn.onclick = function(){
+			linearAnimation(box,'left',700,30,function(){
+				linearAnimation(box,'top',300,30,function(){
+				});
+			});
+		}
+
+		function linearAnimation(obj,attr,target = 0,speed,fn){
+			var begin = parseInt(getStyle(obj,attr)) || 0;
+			var step = 50;
+
+			clearInterval(obj.timer);
+
+			obj.timer = setInterval(function(){
+				begin += step;
+				box.style[attr] = begin + 'px';
+				
+				if(begin >= parseInt(target)){
+					begin = target;
+					clearInterval(obj.timer);
+
+					fn && fn();
+				}
+			},20)
+		}
+
+		function getStyle(obj,attr){
+			if(window.getComputedStyle){
+				return window.getComputedStyle(obj)[attr];
+			}
+			else{
+				return obj.currentStyle(attr);
+			}
+		}
+	</script>
+</body>
+</html>

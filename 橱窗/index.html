@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>旋之华老师讲解橱窗特效</title>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+			list-style: none;
+		}
+		#box{
+			width: 800px;
+			height: 300px;
+			border: 1px solid #000;
+			margin: 100px auto;
+			position: relative;
+			overflow: hidden;
+		}
+		#box ul{
+			width:1964px;
+			height: 200px;
+			position: absolute;
+			background: #f00;
+		}
+		#box ul li,img{
+			width: 160px;
+			height: 200px;
+			display: inline-block;
+		}
+		#box #bottom{
+			height: 35px;
+			background: #e8e8e8;
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+		}
+		#scrollBar{
+			position: absolute;
+			width: 0px;
+			height: 100%;
+			background: red;
+			border-radius: 14px;
+		}
+	</style>
+	<script>
+		window.onload = function(){
+			var box = document.all('box');
+			var top = document.all('top');
+			var bottom = document.all('bottom');
+			var scrollBar = document.all('scrollBar');
+
+			//滚动条的宽度 = (盒子的宽度 / 内容的宽度) * 盒子的宽度
+			var scrollW = (box.offsetWidth / top.offsetWidth) * box.offsetWidth;
+			scrollBar.style.width = scrollW + 'px';
+
+			scrollBar.onmousedown = function(ev){
+				var e = ev || event;
+				var disX = e.clientX - scrollBar.offsetLeft;
+
+				document.onmousemove = function(ev){
+					var e = ev || event;
+					var l = e.clientX - disX;
+
+					if(l <= 0){
+						l = 0;
+					}
+					if(l >= (bottom.offsetWidth - scrollBar.offsetWidth)){
+						l = (bottom.offsetWidth - scrollBar.offsetWidth);
+					}
+
+					scrollBar.style.left = l + 'px';
+
+					//内容的滚动距离 = (内容的长度 - 盒子的长度) / (盒子的长度 - 滚动条的长度) * 滚动条的滚动距离
+					var con_scroll = (top.offsetWidth - box.offsetWidth) / (box.offsetWidth - scrollBar.offsetWidth) * l; 
+
+					top.style.left = -con_scroll + 'px';
+
+					return false;
+				}
+
+				document.onmouseup = function(){
+					document.onmousemove = null;
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<ul id="top">
+			<li><img src="images/1.jpg" alt=""></li>
+			<li><img src="images/2.jpg" alt=""></li>
+			<li><img src="images/3.jpg" alt=""></li>
+			<li><img src="images/4.jpg" alt=""></li>
+			<li><img src="images/1.jpg" alt=""></li>
+			<li><img src="images/2.jpg" alt=""></li>
+			<li><img src="images/3.jpg" alt=""></li>
+			<li><img src="images/4.jpg" alt=""></li>
+			<li><img src="images/1.jpg" alt=""></li>
+			<li><img src="images/2.jpg" alt=""></li>
+			<li><img src="images/3.jpg" alt=""></li>
+			<li><img src="images/4.jpg" alt=""></li>
+		</ul>
+		<div id="bottom">
+			<span id="scrollBar"></span>
+		</div>
+	</div>
+</body>
+</html>

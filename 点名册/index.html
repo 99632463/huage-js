@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<button id="start">随机点名</button>
+	<button id="stop">停止</button>
+	<div id="content"></div>
+
+	<script>
+		var start = $('start');
+		var stop = $('stop');
+		var content = $('content');
+
+		var timer = null;
+		var arr = ['罗探长','李小龙','陈真','霍元甲','刘振生','由美','武田幸雄'];
+
+		start.onclick = function(){
+			clearInterval(timer);
+			timer = setInterval(function(){
+				var random = Math.floor(Math.random() * arr.length);
+				content.innerHTML = arr[random];
+			},20);
+		}
+
+		stop.onclick = function(){
+			clearInterval(timer);
+		}
+
+		function $(id){
+			return typeof id === 'string' && document.all(id);
+		}
+	</script>
+</body>
+</html>

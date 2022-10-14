@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		#box{
+			width: 400px;
+			height: 400px;
+			margin: 50px auto;
+			border-radius: 100%;
+			border: 1px solid #000;
+			position: relative;
+		}
+		#hour,#minute,#second{
+			position: absolute;
+			left: 50%;
+			top: 34%;
+			transform: translate(-50%);
+		}
+		#hour{
+			width: 8px;
+			height: 80px;
+			background: #000;
+		}
+		#minute{
+			width: 5px;
+			height: 120px;
+			background: #f00;
+		}
+		#second{
+			width: 2px;
+			height: 140px;
+			background: #00f;
+		}
+		#circle{
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background: yellow;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%);
+		}
+	</style>
+</head>
+<body>
+		<div id="box">
+			<div id="hour"></div>
+			<div id="minute"></div>
+			<div id="second"></div>
+			<div id="circle"></div>
+		</div>
+
+		<script>
+			setInterval(clock,1000);
+
+			function clock(){
+				const date = new Date();
+				const milliSeconds = date.getMilliseconds();
+				const seconds = date.getSeconds() + milliSeconds / 1000;
+				const minutes = date.getMinutes() + seconds / 60;
+				const hours = date.getHours() + minutes / 60;
+
+				$('hour').style.transform = 'rotate('+hours * 30+'deg)';
+				$('minute').style.transform = 'rotate('+minutes * 6+'deg)';
+				$('second').style.transform = 'rotate('+seconds * 6+'deg)';
+			}
+
+			function $(id){
+				return typeof id === 'string' && document.getElementById(id);
+			}
+		</script>
+</body>
+</html>

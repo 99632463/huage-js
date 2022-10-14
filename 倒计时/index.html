@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<time id="time"></time>
+
+	<script>
+		const time = document.all('time');
+		const nextTime = '2019/8/20';
+		const timer = null;
+
+		daoJiTime(time,nextTime);
+
+		timer = setInterval(function(){
+			daoJiTime(time,nextTime);
+		},1000)
+
+		function daoJiTime(time,nextTime){
+			const currentTime = new Date().getTime();
+			const willTime = new Date(nextTime).getTime();
+
+			const distanceSecond = parseInt((willTime - currentTime) / 1000);
+			
+			const result = formatTime(distanceSecond);
+
+			time.innerHTML = result;
+		}
+
+		function formatTime(distanceSecond){
+			const days = parseInt(distanceSecond / 3600 / 24);
+			const hours = toTwo(parseInt(distanceSecond / 3600 % 24));
+			const minutes = toTwo(parseInt(distanceSecond / 60 % 60));
+			const seconds = toTwo(parseInt(distanceSecond % 60));
+
+			removeInterval(days,minutes,seconds);
+			
+			return '剩余：' + days + '天' + hours + '时' + minutes + '分' + seconds + '秒';
+		}
+
+		removeInterval(days,minutes,seconds){
+			if(!days && !hours && !minutes && !seconds){
+				clearInterval(timer);
+			}
+		}
+
+		function toTwo(n){
+			return n < 10 ? '0' + n : n;
+		}
+	</script>
+</body>
+</html>

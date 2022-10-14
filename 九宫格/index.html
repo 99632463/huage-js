@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		.box{
+			width: 200px;
+			height: 200px;
+		}
+		.box:nth-child(1){
+			background: #000;
+		}
+		.box:nth-child(2){
+			background: #00f;
+		}
+		.box:nth-child(3){
+			background: #0f0;
+		}
+		.box:nth-child(4){
+			background: #f00;
+		}
+		.box:nth-child(5){
+			background: deepskyblue;
+		}
+		.box:nth-child(6){
+			background: purple;
+		}
+		.box:nth-child(7){
+			background: tomato;
+		}
+		.box:nth-child(8){
+			background: pink;
+		}
+		.box:nth-child(9){
+			background: skyblue;
+		}
+	</style>
+</head>
+<body>
+	<div class="jiu">
+		<button id="btn1">3列</button>
+		<button id="btn2">4列</button>
+		<button id="btn3">5列</button>
+
+		<div id="content">
+			<div class="box"></div>
+			<div class="box"></div>
+			<div class="box"></div>
+			<div class="box"></div>
+			<div class="box"></div>
+			<div class="box"></div>
+			<div class="box"></div>
+			<div class="box"></div>
+			<div class="box"></div>
+		</div>
+	</div>
+
+	<script>
+		//九宫格算法  行 = 下标 / 列数,   列 = 下标 % 列数
+		const btn1 = $('btn1');
+		const btn2 = $('btn2');
+		const btn3 = $('btn3');
+
+		const options = {
+			parentElement:$('content'),
+			boxWidth:200,
+			boxHeight:200
+		}
+
+		btn1.onclick = function(){
+			j_flex(3,options);
+		}
+
+		btn2.onclick = function(){
+			j_flex(4,options);
+		}
+
+		btn3.onclick = function(){
+			j_flex(5,options);
+		}
+
+		function j_flex(allColls,options = {}){
+			const childrens = options.parentElement.children;
+			for(let i = 0,len = childrens.length; i < len; i++){
+				const row = Math.floor(i / allColls);
+				const col = Math.floor(i % allColls);
+
+				const children = childrens[i];
+				children.style.position = 'absolute';
+				children.style.left = col * options.boxWidth + 'px';
+				children.style.top = row * options.boxHeight + 'px';
+			}
+		}
+
+		function $(id){
+			return typeof id === 'string' && document.all(id);
+		}
+	</script>
+</body>
+</html>

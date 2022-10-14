@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        html,body,ul{
+            width: 100%;
+            height: 100%;
+        }
+        #pic{
+            position: relative;
+        }
+        #pic li{
+            position: absolute;
+            transition: all 1s;
+        }
+        img{
+            width: 250px;
+            height: 360px;
+            box-shadow: 0 0 10px #000;
+        }
+        #pic li.current{
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%,-50%) rotate(0deg) scale(1.5) !important;
+            z-index: 999 !important;
+        }
+    </style>
+    <script src="js/underscode.js"></script>
+    <script>
+        window.onload = function () {
+            var pic = document.all('pic');
+            var allLi = pic.children;
+
+
+            //动态创建10个li
+            for(var i = 0; i < 10; i++){
+                var ali = document.createElement('li');
+                pic.appendChild(ali);
+                var img = document.createElement('img');
+                img.src = 'images/'+(i+1)+'.jpg';
+                ali.appendChild(img);
+
+                var win_w = document.documentElement.clientWidth - img.offsetWidth;
+                var win_h = document.documentElement.clientHeight - img.offsetHeight;
+
+                var screenW = _.random(0,win_w);
+                var screenH = _.random(0,win_h);
+
+               /* var screenW = Math.random() * win_w;
+                var screenH = Math.random() * win_h;*/
+
+                allLi[i].style.left = screenW + 'px';
+                allLi[i].style.top = screenH + 'px';
+
+                allLi[i].style.transform = 'rotate('+_.random(0,360)+'deg)';
+
+                allLi[i].onclick = function () {
+                    for(var i = 0; i < 10; i++){
+                        allLi[i].className = '';
+                    }
+                    this.className = 'current';
+                }
+            }
+
+        }
+    </script>
+</head>
+<body>
+    <ul id="pic"></ul>
+</body>
+</html>

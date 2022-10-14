@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#box{
+			width: 200px;
+			height: 200px;
+			background: #f00;
+		}
+	</style>
+</head>
+<body>
+	<button id="btn">move</button>
+	<div id="box"></div>
+
+	<script>
+		var btn = document.all('btn');
+		var box = document.all('box');
+
+		var timer = null,begin = 0,step = 50,target = 599;
+
+		btn.onclick = function(){
+			clearInterval(timer);
+			timer = setInterval(move,15);
+		}
+
+		function move(){
+			begin += step;
+			if(begin >= target){
+				begin = target;
+				clearInterval(timer);
+			}
+			box.style.marginLeft = begin + 'px';
+		}
+	</script>
+</body>
+</html>

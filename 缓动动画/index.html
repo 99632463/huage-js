@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#test{
+			width: 200px;
+			height: 200px;
+			background: #f00;
+			position: absolute;
+			left: 0;
+		}
+	</style>
+</head>
+<body>
+	<button id="btn">move</button>
+	<div id="test"></div>
+
+	<script src="../工具方法/myTools.js"></script>
+	<script>
+		var btn = document.all('btn');
+		var test = Tools.getIdElement('test');
+
+		btn.onclick = function(){
+			Tools.bufferAnimation(test,{left:700});
+		}
+	</script>
+</body>
+</html>

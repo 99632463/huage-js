@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>无线轮播</title>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+			list-style: none;
+		}
+		#box{
+			width: 750px;
+			height: 320px;
+			border: 1px solid #ccc;
+			margin: 100px auto;
+			padding: 10px;
+			position: relative;
+		}
+		#top{
+			width: 100%;
+			height: 100%;
+			position: relative;
+			overflow: hidden;
+		}
+		#ul{
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 3750px;
+			height: 320px;
+		}
+		#ul li{
+			width: 750px;
+			height: 100%;
+			float: left;
+		}
+		#ul li img{
+			width: 100%;
+			height: 100%;
+		}
+		#ol{
+			position: absolute;
+			bottom: 10px;
+			left: 50%;
+			transform: translate(-50%);
+		}
+		#ol li{
+			width: 25px;
+			height: 25px;
+			background: darkgray;
+			display: inline-block;
+			margin-right: 10px;
+			border-radius: 100%;
+		}
+		#ol li.active{
+			background: orange;
+		}
+	</style>
+	<script src="../工具方法/myTools.js"></script>
+	<script>
+		window.onload = function(){
+			var box = document.all('box');
+			var ul = document.all('ul');
+			var ul_li = ul.children;
+			var ol = document.all('ol');
+		
+			var timer = null,iNow = 0,indicators = 0;		
+
+			for (var i = 0; i < ul_li.length - 1; i++) {
+				var ol_li = document.createElement('li');
+				ol.appendChild(ol_li);
+			}
+
+			ol.children[0].className = 'active';
+
+			for(var i = 0; i < ol.children.length; i++){
+				(function(i){
+					ol.children[i].onmouseover = function(){
+						for(var j = 0; j < ol.children.length; j++){
+							ol.children[j].className = '';
+						}
+						this.className = 'active';
+						iNow = indicators = i;
+						Tools.constant(ul,-750 * i,60);
+					}
+				})(i);
+			}
+
+			timer = setInterval(autoPlay,1000);
+
+			function autoPlay(){
+				iNow++;
+				if(iNow === ul_li.length){
+					ul.style.left = 0;
+					iNow = 1;
+				}
+				Tools.constant(ul,-750 * iNow,60);
+
+				indicators++;
+				indicators %= ol.children.length;
+				for(var j = 0; j < ol.children.length; j++){
+					ol.children[j].className = '';
+				}
+				ol.children[indicators].className = 'active';
+			}
+
+			box.onmouseover = function(){
+				clearInterval(timer);
+			}
+			box.onmouseout = function(){
+				timer = setInterval(autoPlay,1000);
+			}
+		}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<div id="top">
+			<ul id="ul">
+				<li><img src="../img/1.jpg" alt=""></li>
+				<li><img src="../img/2.jpg" alt=""></li>
+				<li><img src="../img/3.jpg" alt=""></li>
+				<li><img src="../img/4.jpg" alt=""></li>
+				<li><img src="../img/1.jpg" alt=""></li>
+			</ul>
+		</div>
+		<ol id="ol">
+		</ol>
+	</div>
+</body>
+</html>

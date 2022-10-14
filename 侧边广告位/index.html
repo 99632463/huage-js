@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body{
+			height: 3000px;
+		}
+		aside{
+			width: 100px;
+			height: 300px;
+			background: #f00;
+			position: absolute;
+			left: 0;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+	</style>
+</head>
+<body>
+	<aside id="aside"></aside>
+
+	<script>
+		var aside = document.all('aside');
+		var offsetTop = aside.offsetTop;
+
+		var begin = 0, end = 0, timer = null;
+
+		window.onscroll = function(){
+			var scrollTop = document.documentElement.scrollTop;
+			end = offsetTop + scrollTop;
+
+			clearInterval(timer);
+			
+			timer = setInterval(function(){
+				begin += (end - begin) * .2;
+				aside.style.top = begin + 'px';
+				
+				if(Math.ceil(begin) === end){
+					clearInterval(timer);
+				}
+			},20);
+		}
+	</script>
+</body>
+</html>

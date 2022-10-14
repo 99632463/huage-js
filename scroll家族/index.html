@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+	<style>
+		body{
+			height: 8000px;
+		}
+		.box{
+			width: 400px;
+			height: 200px;
+			border: 1px solid #000;
+			overflow: auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是的地方是
+	</div>
+
+	<script>
+
+		//某个元素
+		var box = document.querySelector('.box');
+
+		box.onscroll = function(){
+			console.log(box.scrollTop);
+		}
+
+
+		//body
+		// window.onscroll = function(){
+		// 	可以赋值
+		// 	document.documentElement.scrollTop = document.documentElement.scrollHeight;
+		// 	console.log('scrollTop: ',document.documentElement.scrollTop);
+		// 	console.log('scrollHeight: ',document.documentElement.scrollHeight);
+
+		// 	//最新版本浏览器  兼容新版本ie  只能获取 不能赋值
+		// 	console.log('pageYOffset',window.pageYOffset);  
+
+		// 	// 兼容处理  document.body 现在对 ie 好像没用了
+		// 	var scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+		// }
+	</script>
+</body>
+</html>

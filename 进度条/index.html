@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>旋之华老师讲解进度条</title>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		#box{
+			width: 800px;
+			height: 60px;
+			margin: 150px auto;
+			border-radius: 4px;
+		}
+		#progress{
+			width: 700px;
+			height: 100%;
+			float: left;
+			position: relative;
+			background: #e8e8e8;
+			border-radius: 4px;
+		}
+		#progress-bg{
+			width: 0px;
+			height: 100%;
+			background: skyblue;
+			border-radius: 4px 0 0 4px;
+		}
+		#progress-bar{
+			width: 25px;
+			height: 90px;
+			position: absolute;
+			left: 0;
+			top: -15px;
+			background: red;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		#progress-value{
+			float: right;
+			text-align: center;
+			line-height: 60px;
+			font-size: 25px;
+			font-weight: bold;
+			position: relative;
+			right: 20px;
+		}
+	</style>
+	<script>
+		window.onload = function(){
+			var progress = document.all('progress');
+			var bg = document.all('progress-bg');
+			var bar = document.all('progress-bar');
+			var value = document.all('progress-value');
+
+			bar.onmousedown = function(ev){
+				var e = ev || event;
+				var disX = e.clientX - bar.offsetLeft;
+				
+				document.onmousemove = function(ev){
+					var e = ev || event;
+					var l = e.clientX - disX;
+
+					if(l <= 0){
+						l = 0;
+					}
+					if(l >= (progress.offsetWidth - bar.offsetWidth)){
+						l = (progress.offsetWidth - bar.offsetWidth);
+					}
+
+					bar.style.left = l + 'px';
+					bg.style.width = l + 'px';
+
+					var sacle = l / (progress.offsetWidth - bar.offsetWidth);
+					value.innerHTML = parseInt(sacle * 100) + '%';
+				}
+				document.onmouseup = function(){
+					document.onmousemove = null;
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<div id="progress">
+			<div id="progress-bg"></div>
+			<div id="progress-bar"></div>
+		</div>
+		<div id="progress-value">0 %</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>楼层效果</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        html,body,#ul{
+            width: 100%;
+            height: 100%;
+        }
+        #ul li{
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-size: 50px;
+        }
+        #ol{
+            width: 80px;
+            position: fixed;
+            top: 300px;
+            left: 20px;
+            border: 1px solid #f90;
+            border-style:solid solid none solid;
+        }
+        #ol li{
+            width: 100%;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            border-bottom: 1px solid #f90;
+        }
+        #ol li.current{
+            background: orange;
+        }
+    </style>
+    <script src="../工具方法/myTools.js"></script>
+    <script>
+        window.onload = function () {
+            var ul = document.all('ul');
+            var ul_li = ul.children;
+            var ol = document.all('ol');
+            var ol_li = ol.children;
+
+            var isClick = false;
+
+            var colorArr = ['#458b00','skyblue','pink','gray'];
+            for(var i = 0; i < ul_li.length; i++){
+                ul_li[i].style.background = colorArr[i];
+            }
+
+            for(var i = 0; i < ol_li.length; i++){
+                (function(n){
+                    ol_li[n].onclick = function () {
+                            isClick = true;
+                            for(var j = 0; j < ol_li.length; j++) {
+                                ol_li[j].className = '';
+                            }
+                            this.className = 'current';
+                            Tools.bufferAnimation(document.documentElement,{scrollTop:n * Tools.client().height},30,function(){
+                                isClick = false;
+                            });
+                        }
+                })(i);
+            }
+
+
+            window.onscroll = function(){
+                if(!isClick){
+                    var roll = Tools.scroll().top; 
+                    for(var j = 0; j < ul_li.length; j++){
+                        if(roll > ul_li[j].offsetTop){
+                           for(var k = 0; k < ol_li.length; k++) {
+                                ol_li[k].className = '';
+                            }
+                            ol_li[j].className = 'current'; 
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+        <ul id="ul">
+            <li>第一层内容</li>
+            <li>第二层内容</li>
+            <li>第三层内容</li>
+            <li>第四层内容</li>
+            <div style="height:1px;background:gray;"></div>
+        </ul>
+        <ol id="ol">
+            <li class="current">第一层</li>
+            <li>第二层</li>
+            <li>第三层</li>
+            <li>第四层</li>
+        </ol>
+</body>
+</html>
